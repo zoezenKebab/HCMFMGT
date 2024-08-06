@@ -1,0 +1,113 @@
+[gd_scene load_steps=11 format=3 uid="uid://odc88hdait61"]
+
+[ext_resource type="Script" path="res://src/enemy.gd" id="1_f5u4n"]
+[ext_resource type="Texture2D" uid="uid://bsu68fv50818o" path="res://resres/testlight.png" id="3_dubod"]
+[ext_resource type="Texture2D" uid="uid://bdm7klj2q6o56" path="res://resres/exp.png" id="3_nkt1k"]
+[ext_resource type="AudioStream" uid="uid://cufy1buj3bq76" path="res://resres/move.wav" id="4_yotmy"]
+[ext_resource type="LabelSettings" uid="uid://dtbktb5xi74s6" path="res://resres/set.tres" id="5_wqvle"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_63xt8"]
+polygon = PackedVector2Array(-44.8718, -64.1026, 38.4615, -53.8461, 58, 59, -64.1026, 24.359)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ccuxx"]
+radius = 55.0
+
+[sub_resource type="Animation" id="Animation_uafi8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tjxrm"]
+resource_name = "sprite_animation"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 1.1, 1.4),
+"transitions": PackedFloat32Array(1e-05, 1e-05, 1e-05, 1e-05, 1e-05),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 13), Vector2(0, 20), Vector2(0, 20), Vector2(0, 13)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tlhn7"]
+_data = {
+"RESET": SubResource("Animation_uafi8"),
+"sprite_animation": SubResource("Animation_tjxrm")
+}
+
+[node name="enemy" type="Node2D"]
+script = ExtResource("1_f5u4n")
+
+[node name="FakeLight" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+self_modulate = Color(1, 1, 1, 0.701961)
+show_behind_parent = true
+z_index = -1
+rotation = 3.14159
+scale = Vector2(16, 16)
+texture = ExtResource("3_dubod")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+light_mask = 16
+rotation = -3.14159
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_nkt1k")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D"]
+scale = Vector2(1.95, 1.95)
+occluder = SubResource("OccluderPolygon2D_63xt8")
+occluder_light_mask = 17
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ccuxx")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+light_mask = 4
+color = Color(1, 0.00784314, 0, 1)
+energy = 15.0
+shadow_enabled = true
+texture = ExtResource("3_dubod")
+texture_scale = 10.0
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_yotmy")
+attenuation = 3.24901
+panning_strength = 3.0
+
+[node name="AnimSpr" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tlhn7")
+}
+
+[node name="MetalGear" type="Label" parent="."]
+visible = false
+self_modulate = Color(0.872679, 0.149055, 0.178781, 1)
+light_mask = 0
+offset_left = -80.0
+offset_top = -106.0
+offset_right = -60.0
+offset_bottom = -55.0
+scale = Vector2(1.9, 1.9)
+text = "!"
+label_settings = ExtResource("5_wqvle")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

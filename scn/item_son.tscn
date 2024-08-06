@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://1ab3odapxvwf"]
+
+[ext_resource type="Texture2D" uid="uid://dni6720cw71v8" path="res://resres/pick.png" id="1_jygfq"]
+[ext_resource type="Script" path="res://src/ItemSon2.gd" id="2_bue1q"]
+[ext_resource type="Script" path="res://src/Area2D.gd" id="3_nc7rk"]
+[ext_resource type="Texture2D" uid="uid://bsu68fv50818o" path="res://resres/testlight.png" id="4_0fgpu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4jg1e"]
+size = Vector2(192.308, 207.692)
+
+[node name="ItemSon" type="Sprite2D"]
+self_modulate = Color(0.802275, 0.469027, 0, 0.588235)
+light_mask = 0
+z_index = 2
+z_as_relative = false
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_jygfq")
+script = ExtResource("2_bue1q")
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(1.3, 1.3)
+script = ExtResource("3_nc7rk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1.28205, -1.28205)
+shape = SubResource("RectangleShape2D_4jg1e")
+
+[node name="FakeLight" type="Sprite2D" parent="."]
+modulate = Color(0.615686, 0.776471, 0.941176, 0.701961)
+show_behind_parent = true
+z_index = -3
+scale = Vector2(20, 20)
+texture = ExtResource("4_0fgpu")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+z_index = 4
+color = Color(0.439441, 0.64864, 0.862503, 1)
+energy = 10.0
+shadow_enabled = true
+texture = ExtResource("4_0fgpu")
+texture_scale = 10.0
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

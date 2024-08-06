@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dj6vtcvlcowi1"]
+
+[ext_resource type="Texture2D" uid="uid://cumsvhctuojnc" path="res://resres/icon.svg" id="1_77vih"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mbh8k"]
+size = Vector2(1288, 27)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6c37e"]
+polygon = PackedVector2Array(-645, -14, 645, -14, 645, 14, -645, 14)
+
+[node name="Mur" type="StaticBody2D"]
+scale = Vector2(0.3, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mbh8k")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(12.048, 2.149)
+texture = ExtResource("1_77vih")
+region_enabled = true
+region_rect = Rect2(9, 109, 107, 13)
+metadata/_edit_lock_ = true
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_6c37e")

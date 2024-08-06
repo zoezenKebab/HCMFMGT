@@ -1,0 +1,268 @@
+[gd_scene load_steps=22 format=3 uid="uid://da7055luvgaqx"]
+
+[ext_resource type="Script" path="res://src/CharacterBody2D.gd" id="1_iotmv"]
+[ext_resource type="Texture2D" uid="uid://b7vrf1rsiutv1" path="res://resres/vignette.png" id="2_goush"]
+[ext_resource type="Texture2D" uid="uid://g5y2l7ipmjs7" path="res://resres/prgply.png" id="3_b7p0u"]
+[ext_resource type="Texture2D" uid="uid://buihsyl7mpual" path="res://resres/ply.png" id="3_k038x"]
+[ext_resource type="FontFile" uid="uid://8gvqul4bucqa" path="res://resres/Minecraft.ttf" id="4_1u3a4"]
+[ext_resource type="Texture2D" uid="uid://bsu68fv50818o" path="res://resres/testlight.png" id="4_5nrci"]
+[ext_resource type="Script" path="res://src/ChunckControl.gd" id="5_hkvq2"]
+[ext_resource type="PackedScene" uid="uid://euk1hr5ji87x" path="res://scn/chunk.tscn" id="6_d82qq"]
+[ext_resource type="AudioStream" uid="uid://bcp3p7hijb78x" path="res://resres/Hurt.wav" id="7_wsvxn"]
+[ext_resource type="AudioStream" uid="uid://dy3er7xjywblc" path="res://resres/basePickUp.wav" id="8_p7sef"]
+[ext_resource type="AudioStream" uid="uid://clv4a7gw3eree" path="res://resres/SuperPickUp.wav" id="9_m37i8"]
+[ext_resource type="Texture2D" uid="uid://dnbhn4hyf01q5" path="res://resres/keys.png" id="12_p6wt3"]
+[ext_resource type="Texture2D" uid="uid://dni6720cw71v8" path="res://resres/pick.png" id="13_v5t16"]
+[ext_resource type="Texture2D" uid="uid://bdm7klj2q6o56" path="res://resres/exp.png" id="14_uh8oh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nvjxo"]
+radius = 45.93
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fmovp"]
+polygon = PackedVector2Array(-2, -47, 33, -33, 46, -3, 32, 33, 2, 45, -33, 30, -48, 2, -33, -33)
+
+[sub_resource type="Animation" id="Animation_vuaiy"]
+resource_name = "Curs_anim"
+length = 2.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePrg:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 1, 1.2),
+"transitions": PackedFloat32Array(3.27079e-05, 1e-05, 1e-05, 1e-05, 1e-05),
+"update": 0,
+"values": [Vector2(-110, -121), Vector2(-110, -112), Vector2(-110, -100), Vector2(-110, -100), Vector2(-110, -112)]
+}
+
+[sub_resource type="Animation" id="Animation_fo6me"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritePrg:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-110, -121)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6up6y"]
+_data = {
+"Curs_anim": SubResource("Animation_vuaiy"),
+"RESET": SubResource("Animation_fo6me")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_1a4hl"]
+font = ExtResource("4_1u3a4")
+font_size = 90
+outline_size = 30
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fs3x6"]
+font = ExtResource("4_1u3a4")
+font_size = 200
+outline_size = 60
+outline_color = Color(0, 0, 0, 1)
+
+[node name="main" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+motion_mode = 1
+script = ExtResource("1_iotmv")
+
+[node name="SpritePrg" type="TextureProgressBar" parent="Player"]
+light_mask = 0
+offset_left = -110.0
+offset_top = -121.0
+offset_right = 133.0
+offset_bottom = 88.0
+scale = Vector2(0.715, 0.715)
+pivot_offset = Vector2(110, 120)
+value = 100.0
+texture_under = ExtResource("3_k038x")
+texture_progress = ExtResource("3_b7p0u")
+
+[node name="Vignette" type="Sprite2D" parent="Player"]
+light_mask = 0
+z_as_relative = false
+scale = Vector2(10, 10)
+texture = ExtResource("2_goush")
+metadata/_edit_lock_ = true
+
+[node name="Ui" type="Control" parent="Player"]
+z_index = 3
+layout_mode = 3
+anchors_preset = 0
+offset_left = 74.0
+offset_top = 54.0
+offset_right = 531.0
+offset_bottom = 403.0
+scale = Vector2(0.3, 0.3)
+
+[node name="EnVie" type="Control" parent="Player/Ui"]
+visible = false
+anchors_preset = 0
+
+[node name="Label" type="Label" parent="Player/Ui/EnVie"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -5.075
+anchor_right = -5.075
+offset_left = 40.0
+offset_top = 30.0
+offset_right = 730.0
+offset_bottom = 235.0
+theme_override_fonts/font = ExtResource("4_1u3a4")
+theme_override_font_sizes/font_size = 150
+text = "Score : 0"
+metadata/_edit_use_anchors_ = true
+
+[node name="GameOver" type="Control" parent="Player/Ui"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Fin" type="Label" parent="Player/Ui/GameOver"]
+layout_mode = 0
+offset_left = -1496.67
+offset_top = -2093.33
+offset_right = 1003.33
+offset_bottom = -1547.33
+theme_override_fonts/font = ExtResource("4_1u3a4")
+theme_override_font_sizes/font_size = 400
+text = "Game Over !"
+
+[node name="Label" type="Label" parent="Player/Ui/GameOver/Fin"]
+layout_mode = 0
+offset_left = 26.6666
+offset_top = 3420.0
+offset_right = 2508.67
+offset_bottom = 3720.0
+theme_override_fonts/font = ExtResource("4_1u3a4")
+theme_override_font_sizes/font_size = 150
+text = "Appuyez sur Espace pour rejouer"
+
+[node name="Recap" type="Label" parent="Player/Ui/GameOver"]
+layout_mode = 0
+offset_left = -943.333
+offset_top = 986.667
+offset_right = 435.667
+offset_bottom = 1395.67
+theme_override_fonts/font = ExtResource("4_1u3a4")
+theme_override_font_sizes/font_size = 300
+text = "Score : 19"
+
+[node name="ColorRect" type="ColorRect" parent="Player"]
+z_index = -5
+offset_left = -2489.0
+offset_top = -1479.0
+offset_right = 2511.0
+offset_bottom = 1521.0
+color = Color(0.0471858, 0.0728992, 0.18811, 1)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CircleShape2D_nvjxo")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(0.4, 0.4)
+
+[node name="Timer" type="Timer" parent="Player"]
+wait_time = 0.2
+
+[node name="PointLight2D" type="PointLight2D" parent="Player"]
+energy = 10.0
+range_item_cull_mask = 17
+shadow_enabled = true
+shadow_item_cull_mask = 3
+texture = ExtResource("4_5nrci")
+texture_scale = 25.0
+metadata/_edit_lock_ = true
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Player"]
+visible = false
+occluder = SubResource("OccluderPolygon2D_fmovp")
+
+[node name="CursAnim" type="AnimationPlayer" parent="Player"]
+libraries = {
+"": SubResource("AnimationLibrary_6up6y")
+}
+
+[node name="ChunkControl" type="Node2D" parent="."]
+script = ExtResource("5_hkvq2")
+chunk = ExtResource("6_d82qq")
+
+[node name="AudioControl" type="Node2D" parent="."]
+
+[node name="Perdu" type="AudioStreamPlayer" parent="AudioControl"]
+stream = ExtResource("7_wsvxn")
+
+[node name="PickUp" type="AudioStreamPlayer" parent="AudioControl"]
+stream = ExtResource("8_p7sef")
+volume_db = -13.0
+
+[node name="SuperPickUp" type="AudioStreamPlayer" parent="AudioControl"]
+stream = ExtResource("9_m37i8")
+volume_db = -7.0
+
+[node name="EnemyTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="Tuto" type="Node2D" parent="."]
+light_mask = 0
+z_index = -1
+
+[node name="Keys" type="Sprite2D" parent="Tuto"]
+position = Vector2(-256, -270)
+texture = ExtResource("12_p6wt3")
+
+[node name="Label" type="Label" parent="Tuto/Keys"]
+offset_left = 203.0
+offset_top = -8.0
+offset_right = 1038.0
+offset_bottom = 72.0
+theme_override_fonts/font = ExtResource("4_1u3a4")
+theme_override_font_sizes/font_size = 80
+text = "mouvements"
+label_settings = SubResource("LabelSettings_1a4hl")
+
+[node name="Sable" type="Sprite2D" parent="Tuto"]
+light_mask = 0
+position = Vector2(-470, 260)
+scale = Vector2(0.61, 0.61)
+texture = ExtResource("13_v5t16")
+
+[node name="Label" type="Label" parent="Tuto/Sable"]
+offset_left = 86.8852
+offset_top = -68.8525
+offset_right = 526.885
+offset_bottom = 131.148
+theme_override_font_sizes/font_size = 200
+text = " =  :)"
+label_settings = SubResource("LabelSettings_fs3x6")
+
+[node name="Méchant" type="Sprite2D" parent="Tuto"]
+position = Vector2(200, 260)
+scale = Vector2(0.61, 0.61)
+texture = ExtResource("14_uh8oh")
+flip_v = true
+
+[node name="Label2" type="Label" parent="Tuto/Méchant"]
+offset_left = 228.0
+offset_top = -68.0
+offset_right = 668.0
+offset_bottom = 132.0
+theme_override_font_sizes/font_size = 200
+text = " =  :("
+label_settings = SubResource("LabelSettings_fs3x6")
+
+[connection signal="timeout" from="Player/Timer" to="Player" method="changer_temps_restant" binds= [-1]]

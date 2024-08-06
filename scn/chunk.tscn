@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://euk1hr5ji87x"]
+
+[ext_resource type="Script" path="res://src/chunck.gd" id="1_3darp"]
+[ext_resource type="PackedScene" uid="uid://dj6vtcvlcowi1" path="res://scn/mur.tscn" id="2_liohf"]
+[ext_resource type="PackedScene" uid="uid://1ab3odapxvwf" path="res://scn/item_son.tscn" id="3_c68rt"]
+[ext_resource type="PackedScene" uid="uid://odc88hdait61" path="res://scn/enemy.tscn" id="4_or1op"]
+[ext_resource type="FontFile" uid="uid://8gvqul4bucqa" path="res://resres/Minecraft.ttf" id="5_etr6r"]
+
+[node name="Chunk" type="Node2D"]
+z_index = -2
+script = ExtResource("1_3darp")
+mur = ExtResource("2_liohf")
+"pièce" = ExtResource("3_c68rt")
+ennemi = ExtResource("4_or1op")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 1495.0
+offset_bottom = 1495.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.184314, 0.184314, 0.184314, 0.239216)
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 21.56
+offset_right = 248.56
+offset_bottom = 179.0
+theme_override_fonts/font = ExtResource("5_etr6r")
+theme_override_font_sizes/font_size = 90
+text = "!"
